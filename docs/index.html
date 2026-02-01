@@ -461,6 +461,29 @@
                 </details>
             </div>
 
+            <div class="api-config" style="background: #e3f2fd; border-left-color: #2196F3;">
+                <strong>📄 Document Upload</strong>
+                <p style="margin: 5px 0; font-size: 0.9em; color: #666;">
+                    Upload documents (PDF, DOCX, TXT) to provide context for the agent
+                </p>
+                <div style="margin-top: 10px;">
+                    <input type="file" id="documentFile" accept=".pdf,.docx,.doc,.txt" style="margin-bottom: 8px;">
+                    <input type="text" id="documentName" placeholder="Document name (e.g., Brand Book 2024)" style="width: 100%; margin-bottom: 8px; padding: 8px; border: 2px solid #e0e0e0; border-radius: 6px;">
+                    <select id="documentType" style="width: 100%; padding: 8px; border: 2px solid #e0e0e0; border-radius: 6px; margin-bottom: 8px;">
+                        <option value="brand_book">Brand Book</option>
+                        <option value="tone_guide">Tone Guide</option>
+                        <option value="value_prop">Value Proposition</option>
+                        <option value="product_catalog">Product Catalog</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <button type="button" id="uploadBtn" style="width: 100%; padding: 10px; background: #2196F3; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                        📤 Upload Document
+                    </button>
+                </div>
+                <div id="uploadStatus" style="margin-top: 10px; display: none;"></div>
+                <div id="uploadedDocuments" style="margin-top: 10px;"></div>
+            </div>
+
             <div class="form-section">
                 <h2 style="margin-bottom: 25px; color: #333;">Generation Parameters</h2>
                 

@@ -14,6 +14,7 @@ from pydantic import ValidationError
 
 from app.schemas import GenerateRequest, GenerateResponse, RequestMeta, Constraints, RetrievedSource
 from app.llm_client import LLMClient
+from app.llm_client_openai import OpenAILLMClient
 from app.rag import RAGRetriever
 from app.planner import Planner
 from app.generator import CopyGenerator
@@ -22,6 +23,9 @@ from app.prompt_builder import PromptBuilder
 from app.ranker import Ranker
 from app.renderers.stub import StubRenderer
 from app.renderers.openai_renderer import OpenAIRenderer
+from app.document_ingestion import DocumentIngester
+from fastapi import UploadFile, File, Form
+import os
 
 # Configure logging
 logging.basicConfig(
@@ -53,13 +57,28 @@ app.add_middleware(
 )
 
 # Initialize components
-llm_client = LLMClient()
+# Use OpenAI for content generation if key is available, otherwise fallback to Claude
+use_openai = os.getenv("OPENAI_API_KEY") is not None
+if use_openai:
+    try:
+        llm_client = OpenAILLMClient()
+        logger.info("Using OpenAI GPT-4 for content generation")
+    except Exception as e:
+        logger.warning(f"OpenAI client failed, falling back to Claude: {e}")
+        llm_client = LLMClient()
+else:
+    llm_client = LLMClient()
+    logger.info("Using Claude for content generation")
+
 retriever = RAGRetriever()
 planner = Planner(llm_client, retriever)
 generator = CopyGenerator(llm_client)
 compliance_checker = ComplianceChecker(llm_client)
 prompt_builder = PromptBuilder(llm_client)
 ranker = Ranker()
+
+# Initialize document ingester
+document_ingester = DocumentIngester()
 
 # Initialize renderer (try OpenAI, fallback to stub)
 try:

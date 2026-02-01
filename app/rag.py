@@ -26,13 +26,63 @@ class RAGRetriever:
     """
     Retrieves relevant chunks from brand assets, products, segments.
     
-    TODO: Integrate with Databricks Vector Search for semantic retrieval.
-    For now, implements a stub that returns mock chunks.
+    Supports both uploaded documents and stub data.
     """
     
     def __init__(self, databricks_config: Optional[Dict[str, Any]] = None):
         self.databricks_config = databricks_config
+        self.uploaded_chunks = []  # Store uploaded document chunks
         # TODO: Initialize Databricks Vector Search client
+    
+    def add_documents(self, chunks: List[Any]):
+        """Add uploaded document chunks to the retriever"""
+        self.uploaded_chunks.extend(chunks)
+        logger.info(f"Added {len(chunks)} chunks. Total: {len(self.uploaded_chunks)}")
+    
+    def _search_uploaded_chunks(self, query: str, doc_type: Optional[str] = None, top_k: int = 5) -> List[Chunk]:
+        """Search uploaded chunks using simple text matching (can be upgraded to semantic search)"""
+        if not self.uploaded_chunks:
+            return []
+        
+        # Simple keyword matching (can be upgraded to use embeddings)
+        query_lower = query.lower()
+        scored_chunks = []
+        
+        for chunk in self.uploaded_chunks:
+            if doc_type and chunk.doc_type != doc_type:
+                continue
+            
+            # Simple relevance scoring
+            text_lower = chunk.text.lower()
+            score = text_lower.count(query_lower) * 10
+            
+            # Check if query words appear
+            query_words = query_lower.split()
+            for word in query_words:
+                if word in text_lower:
+                    score += 1
+            
+            if score > 0:
+                scored_chunks.append((chunk, score))
+        
+        # Sort by score and return top_k
+        scored_chunks.sort(key=lambda x: x[1], reverse=True)
+        
+        # Convert to Chunk objects
+        results = []
+        for chunk, score in scored_chunks[:top_k]:
+            results.append(Chunk(
+                chunk_id=chunk.chunk_id,
+                doc_name=chunk.doc_name,
+                doc_type=chunk.doc_type,
+                section=chunk.section,
+                page=chunk.page,
+                text=chunk.text,
+                metadata=chunk.metadata or {},
+                score=score
+            ))
+        
+        return results
     
     def retrieve_brand_chunks(
         self,
@@ -51,10 +101,22 @@ class RAGRetriever:
         Returns:
             List of relevant chunks
         """
-        # TODO: Implement Vector Search query
-        # For now, return stub chunks
         logger.info(f"Retrieving brand chunks for query: {query}")
         
+        # First, try to get chunks from uploaded documents
+        uploaded_results = []
+        if doc_types:
+            for doc_type in doc_types:
+                uploaded_results.extend(self._search_uploaded_chunks(query, doc_type, top_k))
+        else:
+            uploaded_results = self._search_uploaded_chunks(query, None, top_k)
+        
+        if uploaded_results:
+            logger.info(f"Found {len(uploaded_results)} chunks from uploaded documents")
+            return uploaded_results[:top_k]
+        
+        # Fallback to stub chunks if no uploaded documents
+        logger.info("No uploaded documents found, using stub chunks")
         stub_chunks = [
             Chunk(
                 chunk_id="brand_001",
