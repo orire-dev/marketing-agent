@@ -58,6 +58,9 @@ class GenerateRequest(BaseModel):
     num_options: int = Field(3, ge=1, le=6, description="Number of creative options to generate")
     seed: Optional[int] = Field(None, description="Seed for deterministic generation")
     
+    # API keys (optional, can use env vars as fallback)
+    openai_api_key: Optional[str] = Field(None, description="OpenAI API key for image generation (optional, can use env var)")
+    
     class Config:
         json_schema_extra = {
             "example": {

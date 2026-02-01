@@ -140,12 +140,28 @@ async def generate_creative(request: GenerateRequest) -> GenerateResponse:
         
         # Step 4.5: Generate actual images
         logger.info("Step 4.5: Generating images...")
+        # Create renderer with dynamic API key if provided
+        image_renderer = renderer
+        if request.openai_api_key:
+            # Use provided API key
+            from app.renderers.openai_renderer import OpenAIRenderer
+            image_renderer = OpenAIRenderer(api_key=request.openai_api_key)
+            logger.info("Using OpenAI API key from request")
+        elif isinstance(renderer, StubRenderer):
+            # Try to use env var if available
+            import os
+            env_key = os.getenv("OPENAI_API_KEY")
+            if env_key:
+                from app.renderers.openai_renderer import OpenAIRenderer
+                image_renderer = OpenAIRenderer(api_key=env_key)
+                logger.info("Using OpenAI API key from environment")
+        
         for option in options:
             for asset_format, lang_prompts in option.prompts.items():
                 for lang, asset_prompt in lang_prompts.items():
                     try:
                         logger.info(f"Generating image for {asset_format}/{lang}...")
-                        image_uri = renderer.render_image(
+                        image_uri = image_renderer.render_image(
                             prompt=asset_prompt.image_prompt,
                             negative_prompt=asset_prompt.negative_prompt,
                             aspect_ratio=asset_prompt.aspect_ratio,
@@ -156,14 +172,14 @@ async def generate_creative(request: GenerateRequest) -> GenerateResponse:
                         logger.info(f"✅ Generated image for {asset_format}/{lang}: {image_uri[:80]}...")
                     except ValueError as e:
                         # User-friendly error (billing, auth, etc.)
-                        logger.error(f"❌ Image generation failed for {asset_format}/{lang_str}: {e}")
+                        logger.error(f"❌ Image generation failed for {asset_format}/{lang}: {e}")
                         asset_prompt.generation_status = "failed"
                         asset_prompt.generated_image_uri = None
                         # Store error message for UI display
                         if not hasattr(asset_prompt, 'error_message'):
                             asset_prompt.error_message = str(e)
                     except Exception as e:
-                        logger.error(f"❌ Image generation failed for {asset_format}/{lang_key}: {e}", exc_info=True)
+                        logger.error(f"❌ Image generation failed for {asset_format}/{lang}: {e}", exc_info=True)
                         asset_prompt.generation_status = "failed"
                         asset_prompt.generated_image_uri = None
                         asset_prompt.error_message = f"Image generation error: {str(e)}"

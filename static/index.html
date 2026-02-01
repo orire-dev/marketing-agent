@@ -590,6 +590,8 @@
                 return;
             }
 
+            const openaiKey = document.getElementById('openaiApiKey').value.trim();
+            
             const requestData = {
                 product_scope: formData.get('product_scope'),
                 channel: formData.get('channel'),
@@ -598,7 +600,8 @@
                 num_options: parseInt(formData.get('num_options')),
                 style_guidance: formData.get('style_guidance') || null,
                 segment_id: formData.get('segment_id') || null,
-                campaign_goal: formData.get('campaign_goal') || null
+                campaign_goal: formData.get('campaign_goal') || null,
+                openai_api_key: openaiKey || null
             };
 
             // Show loading
