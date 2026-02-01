@@ -436,9 +436,12 @@
             <div class="api-config">
                 <strong>⚙️ API Configuration</strong>
                 <p style="margin: 5px 0; font-size: 0.9em; color: #666;">
-                    Enter your API endpoint (default: http://localhost:8000)
+                    Enter your deployed API endpoint URL
                 </p>
-                <input type="text" id="apiUrl" value="http://localhost:8000" placeholder="http://localhost:8000" style="margin-top: 8px;">
+                <input type="text" id="apiUrl" value="" placeholder="https://your-api.onrender.com or https://your-api.railway.app" style="margin-top: 8px;">
+                <p style="margin: 5px 0; font-size: 0.85em; color: #e65100; font-weight: 600;">
+                    ⚠️ Required: You must deploy the API server first! See DEPLOYMENT.md for instructions.
+                </p>
                 <p style="margin: 10px 0 5px 0; font-size: 0.9em; color: #666;">
                     Enter your OpenAI API key for image generation (optional - can use server env var)
                 </p>
@@ -446,6 +449,16 @@
                 <p style="margin: 5px 0 0 0; font-size: 0.85em; color: #888;">
                     💡 Leave empty to use server's environment variable, or enter your own key for dynamic use.
                 </p>
+                <details style="margin-top: 10px;">
+                    <summary style="cursor: pointer; color: #1E88E5; font-size: 0.9em; font-weight: 600;">📚 Quick Deployment Options</summary>
+                    <div style="margin-top: 8px; padding: 10px; background: white; border-radius: 6px; font-size: 0.85em;">
+                        <p style="margin: 5px 0;"><strong>Render.com:</strong> Free tier, easy setup</p>
+                        <p style="margin: 5px 0;"><strong>Railway.app:</strong> Free tier, auto-deploy from GitHub</p>
+                        <p style="margin: 5px 0;"><strong>Fly.io:</strong> Free tier, great performance</p>
+                        <p style="margin: 5px 0;"><strong>For testing:</strong> Use ngrok to tunnel localhost</p>
+                        <p style="margin: 5px 0; color: #666;">See <a href="https://github.com/orire-dev/marketing-agent/blob/main/DEPLOYMENT.md" target="_blank">DEPLOYMENT.md</a> for detailed instructions.</p>
+                    </div>
+                </details>
             </div>
 
             <div class="form-section">
