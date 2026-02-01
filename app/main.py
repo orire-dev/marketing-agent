@@ -262,7 +262,10 @@ async def generate_creative(request: GenerateRequest) -> GenerateResponse:
             global_disclaimers=global_disclaimers,
             audit={
                 "retrieved_sources": [s.model_dump() for s in retrieved_sources],
-                "model_versions": {"claude": llm_client.default_model},
+                "model_versions": {
+                    "content_generation": llm_client.default_model if hasattr(llm_client, 'default_model') else "openai-gpt-4",
+                    "llm_provider": "openai" if isinstance(llm_client, OpenAILLMClient) else "anthropic"
+                },
                 "timestamps": {
                     "generation_start": datetime.utcnow().isoformat(),
                     "generation_end": datetime.utcnow().isoformat()
