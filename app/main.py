@@ -6,7 +6,7 @@ import logging
 import uuid
 from datetime import datetime
 from typing import Dict, Any
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -294,6 +294,95 @@ async def regenerate_creative():
     """Regenerate with constraints"""
     # TODO: Implement regeneration
     raise HTTPException(status_code=501, detail="Not yet implemented")
+
+
+@app.post("/upload-document")
+async def upload_document(
+    file: UploadFile = File(...),
+    doc_name: str = Form(...),
+    doc_type: str = Form("brand_book")
+):
+    """
+    Upload a document for RAG context.
+    
+    Supported formats: PDF, DOCX, TXT
+    """
+    try:
+        # Validate file type
+        allowed_extensions = ['.pdf', '.docx', '.doc', '.txt']
+        file_ext = os.path.splitext(file.filename)[1].lower()
+        if file_ext not in allowed_extensions:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Unsupported file type. Allowed: {', '.join(allowed_extensions)}"
+            )
+        
+        # Save uploaded file temporarily
+        upload_dir = Path("./uploads")
+        upload_dir.mkdir(exist_ok=True)
+        temp_path = upload_dir / f"{uuid.uuid4()}{file_ext}"
+        
+        with open(temp_path, "wb") as buffer:
+            content = await file.read()
+            buffer.write(content)
+        
+        # Ingest document
+        chunks = document_ingester.ingest_document(
+            temp_path,
+            doc_name=doc_name,
+            doc_type=doc_type
+        )
+        
+        # Save chunks
+        document_ingester.save_chunks(chunks)
+        
+        # Update retriever with new chunks
+        retriever.add_documents(chunks)
+        
+        # Clean up temp file
+        temp_path.unlink()
+        
+        return {
+            "status": "success",
+            "doc_name": doc_name,
+            "doc_type": doc_type,
+            "chunks_created": len(chunks),
+            "message": f"Successfully ingested {len(chunks)} chunks from {doc_name}"
+        }
+        
+    except Exception as e:
+        logger.error(f"Document upload failed: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
+
+
+@app.get("/documents")
+async def list_documents():
+    """List all uploaded documents"""
+    try:
+        chunks_file = document_ingester.storage_path / "chunks.json"
+        if not chunks_file.exists():
+            return {"documents": []}
+        
+        import json
+        with open(chunks_file, 'r') as f:
+            chunks = json.load(f)
+        
+        # Group by document
+        docs = {}
+        for chunk in chunks:
+            doc_name = chunk.get("doc_name", "Unknown")
+            if doc_name not in docs:
+                docs[doc_name] = {
+                    "doc_name": doc_name,
+                    "doc_type": chunk.get("doc_type", "unknown"),
+                    "chunk_count": 0
+                }
+            docs[doc_name]["chunk_count"] += 1
+        
+        return {"documents": list(docs.values())}
+    except Exception as e:
+        logger.error(f"Error listing documents: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 if __name__ == "__main__":
