@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eToro Marketing Agent</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1E88E5;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        .feature {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .feature h3 {
+            color: #1E88E5;
+            margin-top: 0;
+        }
+        .api-demo {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #1E88E5 0%, #4CAF50 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin: 10px 5px;
+            font-weight: 600;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 eToro Marketing Agent</h1>
+        <p class="subtitle">One-Click Social Ad Generator - AI-Powered Creative Generation</p>
+        
+        <div class="feature">
+            <h3>✨ Features</h3>
+            <ul>
+                <li>Generate 3-5 distinct creative options per request</li>
+                <li>Platform-specific copy (X/Twitter, Facebook)</li>
+                <li>DALL-E 3 image generation</li>
+                <li>Multi-language support (7 languages)</li>
+                <li>Brand compliance checking</li>
+                <li>Real-time generation (< 60 seconds)</li>
+            </ul>
+        </div>
+
+        <div class="feature">
+            <h3>🚀 Quick Start</h3>
+            <p>Run locally:</p>
+            <div class="api-demo">
+$ cd marketing-agent<br>
+$ source .venv/bin/activate<br>
+$ uvicorn app.main:app --host 0.0.0.0 --port 8000<br>
+<br>
+# Then open http://localhost:8000/
+            </div>
+        </div>
+
+        <div class="feature">
+            <h3>📡 API Usage</h3>
+            <p>Generate creatives via API:</p>
+            <div class="api-demo">
+POST /generate<br>
+{<br>
+&nbsp;&nbsp;"product_scope": "crypto",<br>
+&nbsp;&nbsp;"channel": "social",<br>
+&nbsp;&nbsp;"asset": "social_1x1",<br>
+&nbsp;&nbsp;"languages": ["en", "de"],<br>
+&nbsp;&nbsp;"num_options": 3<br>
+}
+            </div>
+        </div>
+
+        <div class="feature">
+            <h3>📚 Documentation</h3>
+            <p>For full documentation, see the <a href="https://github.com/orire-dev/marketing-agent">GitHub repository</a>.</p>
+        </div>
+
+        <div style="margin-top: 40px; text-align: center;">
+            <a href="https://github.com/orire-dev/marketing-agent" class="btn">View on GitHub</a>
+            <a href="https://github.com/orire-dev/marketing-agent/blob/main/README.md" class="btn">Read Docs</a>
+        </div>
+    </div>
+</body>
+</html>
