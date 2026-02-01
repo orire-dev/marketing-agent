@@ -1,72 +1,92 @@
-# Marketing Agent - Quick Start
+# Quick Start: Deploy API for GitHub Pages
 
-## ✅ System Built and Ready
+## 🚀 Fastest Option: Render.com (Recommended)
 
-A complete production-ready Marketing Agent has been implemented with:
+### Step 1: Deploy to Render (5 minutes)
 
-- **FastAPI REST API** with `/generate` endpoint
-- **Claude-powered agents** (Planner, Generator, Compliance, Prompt Builder)
-- **RAG retrieval** (stub, ready for Databricks Vector Search)
-- **Strict JSON output** (all LLM responses validated)
-- **Compliance checking** (brand rules + regulatory)
-- **Multilingual support** (7 languages)
-- **Ranking & scoring** system
-- **Databricks integration** (table schemas ready)
+1. **Go to**: https://render.com
+2. **Sign up** (free account)
+3. **Click**: "New +" → "Web Service"
+4. **Connect** your GitHub repository: `orire-dev/marketing-agent`
+5. **Configure**:
+   - **Name**: `marketing-agent-api` (or any name)
+   - **Region**: Choose closest to you
+   - **Branch**: `main`
+   - **Root Directory**: Leave empty
+   - **Runtime**: `Python 3`
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+6. **Add Environment Variables**:
+   - Click "Advanced" → "Add Environment Variable"
+   - `ANTHROPIC_API_KEY`: Your Anthropic key
+   - `OPENAI_API_KEY`: Your OpenAI key
+7. **Click**: "Create Web Service"
+8. **Wait** for deployment (2-3 minutes)
+9. **Copy** your service URL (e.g., `https://marketing-agent-api.onrender.com`)
 
-## 🚀 Test It Now
+### Step 2: Update GitHub Pages UI
+
+1. **Go to**: https://orire-dev.github.io/marketing-agent/
+2. **Paste** your Render URL in the "API endpoint" field
+3. **Enter** your OpenAI API key (optional)
+4. **Generate** creatives! 🎨
+
+---
+
+## 🔧 Alternative: Railway.app (Also Free)
+
+1. **Go to**: https://railway.app
+2. **Sign up** with GitHub
+3. **New Project** → "Deploy from GitHub repo"
+4. **Select**: `orire-dev/marketing-agent`
+5. **Railway auto-detects** FastAPI
+6. **Add environment variables**:
+   - `ANTHROPIC_API_KEY`
+   - `OPENAI_API_KEY`
+7. **Deploy** → Get your URL
+8. **Update** GitHub Pages UI with Railway URL
+
+---
+
+## 🧪 Quick Testing: ngrok (Temporary)
+
+If you want to test quickly without deploying:
 
 ```bash
+# Install ngrok
+brew install ngrok  # macOS
+# Or download from https://ngrok.com/download
+
+# Start your local server (in another terminal)
 cd ~/marketing-agent
-
-# 1. Install dependencies
-uv venv
 source .venv/bin/activate
-uv pip install -r requirements.txt
+export ANTHROPIC_API_KEY=$(grep ANTHROPIC_API_KEY ~/.env | cut -d'=' -f2 | tr -d ' ')
+export OPENAI_API_KEY=$(grep OPENAI_API_KEY ~/.env | tail -1 | cut -d'=' -f2 | tr -d ' ')
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
 
-# 2. Set API key
-export ANTHROPIC_API_KEY=$(grep ANTHROPIC_API_KEY ~/.env | cut -d'=' -f2)
+# In another terminal, create tunnel
+ngrok http 8000
 
-# 3. Start API
-uvicorn app.main:app --reload --port 8000
-
-# 4. In another terminal, test it:
-curl -X POST http://localhost:8000/generate \
-  -H "Content-Type: application/json" \
-  -d '{
-    "product_scope": "crypto",
-    "channel": "social",
-    "asset": "social_1x1",
-    "languages": ["en", "de"],
-    "style_guidance": "clean, premium, minimal copy, bold typography",
-    "num_options": 3
-  }' | jq '.'
+# Copy the ngrok URL (e.g., https://abc123.ngrok.io)
+# Paste it in GitHub Pages UI
 ```
 
-## 📊 What You'll Get
+**Note**: ngrok URLs change each restart. Use Render/Railway for permanent solution.
 
-The API returns a complete JSON with:
-- 3 creative options (configurable 1-6)
-- Multiple copy variants per language
-- Design specifications
-- Image generation prompts
-- Motion/GIF storyboards
-- Compliance reports
-- Scoring and ranking
-- Full audit trail
+---
 
-## 📁 Key Files
+## ✅ After Deployment
 
-- `app/main.py` - FastAPI endpoints
-- `app/schemas.py` - All data models
-- `app/generator.py` - Copy generation logic
-- `databricks/sql/create_tables.sql` - Database schemas
-- `example_request.json` - Example API call
-- `example_output.json` - Expected response format
+1. Your API will be live at: `https://your-service.onrender.com` (or similar)
+2. GitHub Pages UI: https://orire-dev.github.io/marketing-agent/
+3. Enter your API URL in the GitHub Pages UI
+4. Generate images! 🎉
 
-## 🎯 Status
+---
 
-**Core System**: ✅ Complete
-**Ready to Test**: ✅ Yes
-**Next Steps**: Integrate Databricks Vector Search, add persistence, implement real renderer
+## 🆘 Troubleshooting
 
-See `IMPLEMENTATION_SUMMARY.md` for full details.
+- **CORS errors**: Already configured in the API
+- **API not responding**: Check Render/Railway logs
+- **Image generation fails**: Check OpenAI API key is set correctly
+- **Slow responses**: Free tiers may have cold starts (30-60s first request)
