@@ -154,9 +154,19 @@ async def generate_creative(request: GenerateRequest) -> GenerateResponse:
                         asset_prompt.generated_image_uri = image_uri
                         asset_prompt.generation_status = "completed"
                         logger.info(f"✅ Generated image for {asset_format}/{lang}: {image_uri[:80]}...")
-                    except Exception as e:
-                        logger.error(f"❌ Image generation failed for {asset_format}/{lang}: {e}")
+                    except ValueError as e:
+                        # User-friendly error (billing, auth, etc.)
+                        logger.error(f"❌ Image generation failed for {asset_format}/{lang_str}: {e}")
                         asset_prompt.generation_status = "failed"
+                        asset_prompt.generated_image_uri = None
+                        # Store error message for UI display
+                        if not hasattr(asset_prompt, 'error_message'):
+                            asset_prompt.error_message = str(e)
+                    except Exception as e:
+                        logger.error(f"❌ Image generation failed for {asset_format}/{lang_key}: {e}", exc_info=True)
+                        asset_prompt.generation_status = "failed"
+                        asset_prompt.generated_image_uri = None
+                        asset_prompt.error_message = f"Image generation error: {str(e)}"
         
         # Step 5: Check compliance
         logger.info("Step 5: Checking compliance...")
