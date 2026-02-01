@@ -458,6 +458,21 @@
         </div>
 
         <div class="content">
+            <div class="api-config" style="background: #fff3e0; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #FF9800;">
+                <strong>⚙️ API Configuration</strong>
+                <p style="margin: 5px 0; font-size: 0.9em; color: #666;">
+                    Enter your API endpoint (default: http://localhost:8000)
+                </p>
+                <input type="text" id="apiUrl" value="http://localhost:8000" placeholder="http://localhost:8000" style="margin-top: 8px; width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;">
+                <p style="margin: 10px 0 5px 0; font-size: 0.9em; color: #666;">
+                    Enter your OpenAI API key for image generation (optional - can use server env var)
+                </p>
+                <input type="password" id="openaiApiKey" placeholder="sk-proj-..." style="margin-top: 8px; width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-family: monospace;">
+                <p style="margin: 5px 0 0 0; font-size: 0.85em; color: #888;">
+                    💡 Leave empty to use server's environment variable, or enter your own key for dynamic use.
+                </p>
+            </div>
+
             <div class="form-section">
                 <h2 style="margin-bottom: 25px; color: #333;">Generation Parameters</h2>
                 
@@ -610,8 +625,10 @@
             error.style.display = 'none';
             generateBtn.disabled = true;
 
+            const apiUrl = document.getElementById('apiUrl').value.trim() || 'http://localhost:8000';
+            
             try {
-                const response = await fetch('http://localhost:8000/generate', {
+                const response = await fetch(`${apiUrl}/generate`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
