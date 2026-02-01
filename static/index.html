@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eToro Marketing Agent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1E88E5 0%, #4CAF50 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #1E88E5;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .languages-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .language-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .language-checkbox:hover {
+            border-color: #1E88E5;
+            background: #f0f7ff;
+        }
+
+        .language-checkbox input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .language-checkbox input[type="checkbox"]:checked + span {
+            font-weight: 600;
+            color: #1E88E5;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #1E88E5 0%, #4CAF50 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(30, 136, 229, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #1E88E5;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .option-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: box-shadow 0.3s;
+        }
+
+        .option-card:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .option-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .option-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #1E88E5;
+            margin-bottom: 5px;
+        }
+
+        .option-id {
+            font-size: 0.85em;
+            color: #666;
+            font-family: monospace;
+        }
+
+        .scores {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .score-badge {
+            padding: 6px 12px;
+            background: #f0f7ff;
+            border-radius: 6px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .score-badge.high {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .score-badge.medium {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .compliance-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .compliance-badge.pass {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .compliance-badge.warning {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .compliance-badge.fail {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .copy-section {
+            margin: 20px 0;
+        }
+
+        .copy-section h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .copy-variants {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .copy-variants strong {
+            color: #1E88E5;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .copy-variants ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .copy-variants li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .copy-variants li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #1E88E5;
+            font-weight: bold;
+        }
+
+        .design-spec {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .design-spec h4 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .design-spec p {
+            color: #666;
+            line-height: 1.6;
+            margin: 5px 0;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .expand-btn {
+            background: #f0f0f0;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+
+        .expand-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .collapsible {
+            display: none;
+        }
+
+        .collapsible.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 eToro Marketing Agent</h1>
+            <p>AI-Powered Creative Generation</p>
+        </div>
+
+        <div class="content">
+            <div class="form-section">
+                <h2 style="margin-bottom: 25px; color: #333;">Generation Parameters</h2>
+                
+                <form id="generateForm">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="product_scope">Product Scope *</label>
+                            <input type="text" id="product_scope" name="product_scope" value="crypto" required placeholder="e.g., crypto, stocks, ETFs">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="channel">Channel *</label>
+                            <select id="channel" name="channel" required>
+                                <option value="social">Social</option>
+                                <option value="email">Email</option>
+                                <option value="display">Display</option>
+                                <option value="video">Video</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="asset">Asset Format *</label>
+                            <select id="asset" name="asset" required>
+                                <option value="social_1x1">Social 1x1</option>
+                                <option value="social_4x5">Social 4x5</option>
+                                <option value="story_9x16">Story 9x16</option>
+                                <option value="banner_16x9">Banner 16x9</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="num_options">Number of Options</label>
+                            <input type="number" id="num_options" name="num_options" value="3" min="1" max="6">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Languages *</label>
+                        <div class="languages-group">
+                            <label class="language-checkbox">
+                                <input type="checkbox" name="languages" value="en" checked>
+                                <span>English (EN)</span>
+                            </label>
+                            <label class="language-checkbox">
+                                <input type="checkbox" name="languages" value="de">
+                                <span>German (DE)</span>
+                            </label>
+                            <label class="language-checkbox">
+                                <input type="checkbox" name="languages" value="es">
+                                <span>Spanish (ES)</span>
+                            </label>
+                            <label class="language-checkbox">
+                                <input type="checkbox" name="languages" value="fr">
+                                <span>French (FR)</span>
+                            </label>
+                            <label class="language-checkbox">
+                                <input type="checkbox" name="languages" value="it">
+                                <span>Italian (IT)</span>
+                            </label>
+                            <label class="language-checkbox">
+                                <input type="checkbox" name="languages" value="ar">
+                                <span>Arabic (AR)</span>
+                            </label>
+                            <label class="language-checkbox">
+                                <input type="checkbox" name="languages" value="he">
+                                <span>Hebrew (HE)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="style_guidance">Style Guidance</label>
+                        <textarea id="style_guidance" name="style_guidance" rows="3" placeholder="e.g., clean, premium, minimal copy, bold typography">clean, premium, minimal copy, bold typography</textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="segment_id">Segment ID (optional)</label>
+                            <input type="text" id="segment_id" name="segment_id" placeholder="e.g., crypto_beginner">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="campaign_goal">Campaign Goal (optional)</label>
+                            <input type="text" id="campaign_goal" name="campaign_goal" placeholder="e.g., awareness, conversion">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn" id="generateBtn">
+                        🚀 Generate Creative Options
+                    </button>
+                </form>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Generating creative options... This may take a moment.</p>
+            </div>
+
+            <div class="error" id="error"></div>
+
+            <div class="results" id="results">
+                <h2 style="margin-bottom: 20px; color: #333;">Generated Options</h2>
+                <div id="optionsContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('generateForm');
+        const loading = document.getElementById('loading');
+        const results = document.getElementById('results');
+        const error = document.getElementById('error');
+        const generateBtn = document.getElementById('generateBtn');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(form);
+            const languages = Array.from(document.querySelectorAll('input[name="languages"]:checked')).map(cb => cb.value);
+            
+            if (languages.length === 0) {
+                alert('Please select at least one language');
+                return;
+            }
+
+            const requestData = {
+                product_scope: formData.get('product_scope'),
+                channel: formData.get('channel'),
+                asset: formData.get('asset'),
+                languages: languages,
+                num_options: parseInt(formData.get('num_options')),
+                style_guidance: formData.get('style_guidance') || null,
+                segment_id: formData.get('segment_id') || null,
+                campaign_goal: formData.get('campaign_goal') || null
+            };
+
+            // Show loading
+            loading.style.display = 'block';
+            results.style.display = 'none';
+            error.style.display = 'none';
+            generateBtn.disabled = true;
+
+            try {
+                const response = await fetch('http://localhost:8000/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                displayResults(data);
+            } catch (err) {
+                error.textContent = `Error: ${err.message}`;
+                error.style.display = 'block';
+            } finally {
+                loading.style.display = 'none';
+                generateBtn.disabled = false;
+            }
+        });
+
+        function displayResults(data) {
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+
+            data.options.forEach((option, index) => {
+                const card = document.createElement('div');
+                card.className = 'option-card';
+
+                const complianceClass = option.compliance.status;
+                const complianceText = option.compliance.status.toUpperCase();
+
+                card.innerHTML = `
+                    <div class="option-header">
+                        <div>
+                            <div class="option-title">${option.concept_name}</div>
+                            <div class="option-id">ID: ${option.option_id}</div>
+                        </div>
+                        <span class="compliance-badge ${complianceClass}">${complianceText}</span>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <strong>Rationale:</strong> ${option.rationale}
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <strong>Audience Fit:</strong> ${option.audience_fit_notes}
+                    </div>
+
+                    <div class="scores">
+                        <div class="score-badge ${getScoreClass(option.scores.brand_fit)}">
+                            Brand Fit: ${(option.scores.brand_fit * 100).toFixed(0)}%
+                        </div>
+                        <div class="score-badge ${getScoreClass(option.scores.clarity)}">
+                            Clarity: ${(option.scores.clarity * 100).toFixed(0)}%
+                        </div>
+                        <div class="score-badge ${getScoreClass(option.scores.conversion_intent)}">
+                            Conversion: ${(option.scores.conversion_intent * 100).toFixed(0)}%
+                        </div>
+                        <div class="score-badge ${getScoreClass(option.scores.compliance_safety)}">
+                            Compliance: ${(option.scores.compliance_safety * 100).toFixed(0)}%
+                        </div>
+                        <div class="score-badge ${getScoreClass(option.scores.novelty)}">
+                            Novelty: ${(option.scores.novelty * 100).toFixed(0)}%
+                        </div>
+                    </div>
+
+                    ${option.compliance.flags.length > 0 ? `
+                        <div style="margin-top: 15px; padding: 10px; background: #fff3e0; border-radius: 6px;">
+                            <strong>⚠️ Compliance Flags:</strong>
+                            <ul style="margin-top: 5px; padding-left: 20px;">
+                                ${option.compliance.flags.map(flag => `<li>${flag}</li>`).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
+
+                    <div class="copy-section">
+                        <h4>📝 Copy Variants</h4>
+                        ${Object.entries(option.copy).map(([lang, copy]) => `
+                            <div class="copy-variants">
+                                <strong>${lang.toUpperCase()}</strong>
+                                ${copy.headline_variants.length > 0 ? `
+                                    <div style="margin-top: 8px;">
+                                        <strong>Headlines:</strong>
+                                        <ul>${copy.headline_variants.map(h => `<li>${h}</li>`).join('')}</ul>
+                                    </div>
+                                ` : ''}
+                                ${copy.subhead_variants.length > 0 ? `
+                                    <div style="margin-top: 8px;">
+                                        <strong>Subheads:</strong>
+                                        <ul>${copy.subhead_variants.map(s => `<li>${s}</li>`).join('')}</ul>
+                                    </div>
+                                ` : ''}
+                                ${copy.body_variants.length > 0 ? `
+                                    <div style="margin-top: 8px;">
+                                        <strong>Body:</strong>
+                                        <ul>${copy.body_variants.map(b => `<li>${b}</li>`).join('')}</ul>
+                                    </div>
+                                ` : ''}
+                                ${copy.cta_variants.length > 0 ? `
+                                    <div style="margin-top: 8px;">
+                                        <strong>CTAs:</strong>
+                                        <ul>${copy.cta_variants.map(cta => `<li>${cta}</li>`).join('')}</ul>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <button class="expand-btn" onclick="toggleDetails(this)">
+                        Show Design Spec & Prompts
+                    </button>
+                    <div class="collapsible">
+                        <div class="design-spec">
+                            <h4>🎨 Design Specification</h4>
+                            <p><strong>Layout:</strong> ${option.design_spec.layout}</p>
+                            <p><strong>Typography:</strong> ${option.design_spec.typography_intent}</p>
+                            <p><strong>Imagery:</strong> ${option.design_spec.imagery_direction}</p>
+                            <p><strong>Colors:</strong> ${option.design_spec.brand_color_usage_notes}</p>
+                            ${option.design_spec.animation_vibe ? `<p><strong>Animation:</strong> ${option.design_spec.animation_vibe}</p>` : ''}
+                        </div>
+
+                        <div class="design-spec" style="margin-top: 15px;">
+                            <h4>🖼️ Image Generation</h4>
+                            ${Object.entries(option.prompts).map(([asset, langs]) => `
+                                <div style="margin-top: 10px;">
+                                    <strong>${asset}:</strong>
+                                    ${Object.entries(langs).map(([lang, prompt]) => `
+                                        <div style="margin-top: 8px; padding: 10px; background: white; border-radius: 6px;">
+                                            <strong>${lang.toUpperCase()}:</strong>
+                                            ${prompt.generated_image_uri && prompt.generation_status === 'completed' ? `
+                                                <div style="margin-top: 8px;">
+                                                    <img src="${prompt.generated_image_uri}" alt="Generated image" style="max-width: 100%; border-radius: 6px; margin-top: 8px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                                    <div style="display: none; padding: 8px; background: #fff3e0; border-radius: 4px; color: #e65100;">
+                                                        Image failed to load. URL: ${prompt.generated_image_uri}
+                                                    </div>
+                                                    <p style="margin-top: 5px; font-size: 0.85em; color: #4CAF50;">✅ Image generated successfully</p>
+                                                </div>
+                                            ` : prompt.generation_status === 'failed' ? `
+                                                <div style="margin-top: 8px; padding: 8px; background: #ffebee; border-radius: 4px; color: #c62828;">
+                                                    <strong>❌ Image generation failed</strong>
+                                                    <p style="margin-top: 4px; font-size: 0.9em;">${prompt.error_message || 'Unknown error occurred'}</p>
+                                                    ${prompt.error_message && prompt.error_message.includes('billing') ? `
+                                                        <p style="margin-top: 4px; font-size: 0.85em;">💡 <a href="https://platform.openai.com/account/billing" target="_blank">Check OpenAI billing</a></p>
+                                                    ` : ''}
+                                                </div>
+                                            ` : `
+                                                <p style="margin-top: 5px; color: #666;">⏳ Image generation pending...</p>
+                                            `}
+                                            <details style="margin-top: 8px;">
+                                                <summary style="cursor: pointer; color: #1E88E5; font-size: 0.9em;">Show prompt</summary>
+                                                <p style="margin-top: 5px; font-family: monospace; font-size: 0.85em; color: #555; padding: 8px; background: #f5f5f5; border-radius: 4px;">${prompt.image_prompt}</p>
+                                            </details>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            results.style.display = 'block';
+            results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function getScoreClass(score) {
+            if (score >= 0.8) return 'high';
+            if (score >= 0.5) return 'medium';
+            return '';
+        }
+
+        function toggleDetails(btn) {
+            const collapsible = btn.nextElementSibling;
+            collapsible.classList.toggle('show');
+            btn.textContent = collapsible.classList.contains('show') 
+                ? 'Hide Design Spec & Prompts' 
+                : 'Show Design Spec & Prompts';
+        }
+    </script>
+</body>
+</html>

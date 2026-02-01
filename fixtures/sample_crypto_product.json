@@ -1,0 +1,36 @@
+{
+  "product_id": "crypto",
+  "product_name": "Cryptocurrency Trading",
+  "product_type": "crypto",
+  "description": "Trade 70+ cryptocurrencies on eToro platform",
+  "features": [
+    "70+ cryptocurrencies available",
+    "24/7 trading",
+    "Copy trading for crypto",
+    "Crypto wallet integration",
+    "Real-time market data"
+  ],
+  "restrictions": [
+    "Not available in all jurisdictions",
+    "Minimum deposit may apply",
+    "Age restrictions: 18+"
+  ],
+  "required_disclaimers": [
+    "Crypto assets are highly volatile",
+    "Your capital is at risk",
+    "Past performance is not indicative of future results",
+    "Regulatory status varies by jurisdiction"
+  ],
+  "prohibited_claims": [
+    "Guaranteed returns",
+    "Risk-free trading",
+    "Guaranteed profits",
+    "No risk",
+    "Always profitable"
+  ],
+  "compliance_notes": "Crypto marketing must emphasize volatility and risk. Never suggest crypto is a guaranteed investment.",
+  "metadata": {
+    "category": "digital_assets",
+    "risk_level": "high"
+  }
+}

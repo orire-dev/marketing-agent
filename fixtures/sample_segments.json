@@ -1,0 +1,79 @@
+[
+  {
+    "segment_id": "crypto_beginner",
+    "segment_name": "Crypto Beginners",
+    "persona_attributes": {
+      "age_range": "25-40",
+      "tech_savviness": "high",
+      "investment_experience": "low",
+      "risk_tolerance": "medium"
+    },
+    "jobs_to_be_done": [
+      "Start investing in crypto with small amounts",
+      "Learn about cryptocurrency safely",
+      "Access crypto markets easily",
+      "Follow successful crypto traders"
+    ],
+    "pain_points": [
+      "Overwhelmed by crypto complexity",
+      "Fear of losing money",
+      "Don't know where to start",
+      "Worried about security"
+    ],
+    "objections": [
+      "Is crypto safe?",
+      "Do I need to know everything?",
+      "What if I lose money?",
+      "Is it too late to start?"
+    ],
+    "language_preferences": ["en", "de", "es"],
+    "tone_preferences": {
+      "en": "friendly, educational, reassuring",
+      "de": "professionell, freundlich, aufklärend",
+      "es": "amigable, educativo, tranquilizador"
+    },
+    "metadata": {
+      "primary_channel": "social",
+      "preferred_format": "short_form"
+    }
+  },
+  {
+    "segment_id": "experienced_trader",
+    "segment_name": "Experienced Traders",
+    "persona_attributes": {
+      "age_range": "30-50",
+      "tech_savviness": "very_high",
+      "investment_experience": "high",
+      "risk_tolerance": "high"
+    },
+    "jobs_to_be_done": [
+      "Access diverse asset classes in one platform",
+      "Use advanced trading features",
+      "Copy top-performing traders",
+      "Trade with leverage (CFDs)"
+    ],
+    "pain_points": [
+      "Platform limitations",
+      "High fees",
+      "Limited asset selection",
+      "Poor execution speed"
+    ],
+    "objections": [
+      "Are fees competitive?",
+      "Is execution fast enough?",
+      "What assets are available?",
+      "Can I use advanced strategies?"
+    ],
+    "language_preferences": ["en", "de", "fr", "it"],
+    "tone_preferences": {
+      "en": "professional, feature-focused, confident",
+      "de": "professionell, funktionsorientiert",
+      "fr": "professionnel, axé sur les fonctionnalités",
+      "it": "professionale, orientato alle funzionalità"
+    },
+    "metadata": {
+      "primary_channel": "email",
+      "preferred_format": "detailed"
+    }
+  }
+]

@@ -1,0 +1,148 @@
+{
+  "request_meta": {
+    "channel": "social",
+    "format": "social_1x1",
+    "sizes": ["social_1x1"],
+    "languages": ["en", "de"],
+    "segment_id": "crypto_beginner",
+    "product_scope": "crypto",
+    "campaign_goal": "awareness",
+    "date": "2024-01-31T12:00:00Z"
+  },
+  "constraints": {
+    "tone": null,
+    "style": "clean, premium, minimal copy, bold typography",
+    "must_say": null,
+    "must_not_say": null,
+    "disclaimers": null
+  },
+  "options": [
+    {
+      "option_id": "opt_001",
+      "concept_name": "Start Your Crypto Journey",
+      "rationale": "Educational approach focusing on accessibility and learning, perfect for beginners",
+      "audience_fit_notes": "Addresses 'where to start' pain point with clear, friendly messaging",
+      "copy": {
+        "en": {
+          "headline_variants": [
+            "Start Trading Crypto Today",
+            "Your Crypto Journey Starts Here"
+          ],
+          "subhead_variants": [
+            "70+ cryptocurrencies, one platform"
+          ],
+          "body_variants": [],
+          "cta_variants": [
+            "Start Trading",
+            "Get Started"
+          ]
+        },
+        "de": {
+          "headline_variants": [
+            "Krypto-Handel heute starten",
+            "Ihre Krypto-Reise beginnt hier"
+          ],
+          "subhead_variants": [
+            "70+ Kryptowährungen, eine Plattform"
+          ],
+          "body_variants": [],
+          "cta_variants": [
+            "Handel starten",
+            "Jetzt starten"
+          ]
+        }
+      },
+      "design_spec": {
+        "layout": "Centered composition with crypto iconography, bold headline at top, CTA button at bottom",
+        "typography_intent": "Bold, modern sans-serif (Montserrat/Inter), large headline (48-60pt), clear hierarchy",
+        "imagery_direction": "Clean, premium visuals with crypto symbols, modern gradient backgrounds, high contrast",
+        "brand_color_usage_notes": "Primary eToro blue (#1E88E5) for CTA, green accents for positive messaging",
+        "animation_vibe": "Smooth fade-in of elements, subtle motion on crypto icons"
+      },
+      "prompts": {
+        "social_1x1": {
+          "en": {
+            "image_prompt": "Professional marketing image: Modern cryptocurrency trading interface, clean premium aesthetic, eToro blue (#1E88E5) and green (#4CAF50) color scheme, bold typography, centered composition, high contrast, minimal copy overlay, 1:1 aspect ratio, marketing quality",
+            "negative_prompt": "blurry, low quality, text errors, financial promises, guarantees, misleading imagery, cluttered, unprofessional",
+            "seed": 42,
+            "aspect_ratio": "1:1",
+            "motion_prompt": {
+              "duration_s": 3.0,
+              "fps": 24,
+              "storyboard_frames": [
+                {
+                  "t": 0.0,
+                  "visual": "Crypto symbols fade in",
+                  "on_screen_text": "Start Trading Crypto Today",
+                  "transition": "fade_in"
+                },
+                {
+                  "t": 1.5,
+                  "visual": "Platform interface preview",
+                  "on_screen_text": null,
+                  "transition": "slide"
+                },
+                {
+                  "t": 2.5,
+                  "visual": "CTA button highlight",
+                  "on_screen_text": "Start Trading",
+                  "transition": "fade_out"
+                }
+              ]
+            }
+          },
+          "de": {
+            "image_prompt": "Professionelles Marketing-Bild: Moderne Kryptowährungs-Handelsplattform, sauberes Premium-Design, eToro Blau (#1E88E5) und Grün (#4CAF50) Farbschema, fette Typografie, zentrierte Komposition, hoher Kontrast, minimaler Text-Overlay, 1:1 Seitenverhältnis, Marketing-Qualität",
+            "negative_prompt": "unscharf, niedrige Qualität, Textfehler, Finanzversprechen, Garantien, irreführende Bilder, überladen, unprofessionell",
+            "seed": 42,
+            "aspect_ratio": "1:1",
+            "motion_prompt": null
+          }
+        }
+      },
+      "compliance": {
+        "status": "pass",
+        "flags": [],
+        "required_disclaimers": [
+          "Crypto assets are highly volatile. Your capital is at risk."
+        ],
+        "suggested_safe_edits": []
+      },
+      "scores": {
+        "brand_fit": 0.85,
+        "clarity": 0.90,
+        "conversion_intent": 0.80,
+        "compliance_safety": 0.95,
+        "novelty": 0.75
+      }
+    }
+  ],
+  "global_disclaimers": {
+    "en": "Crypto assets are highly volatile. Your capital is at risk.",
+    "de": "Kryptowährungen sind sehr volatil. Ihr Kapital ist gefährdet."
+  },
+  "audit": {
+    "retrieved_sources": [
+      {
+        "doc": "eToro Brand Book 2024",
+        "section": "Visual Identity",
+        "page": 12,
+        "chunk_id": "brand_001"
+      },
+      {
+        "doc": "Tone of Voice Guide",
+        "section": "Core Principles",
+        "page": 3,
+        "chunk_id": "tone_001"
+      }
+    ],
+    "model_versions": {
+      "claude": "claude-3-5-sonnet-20241022"
+    },
+    "timestamps": {
+      "generation_start": "2024-01-31T12:00:00Z",
+      "generation_end": "2024-01-31T12:00:05Z"
+    },
+    "generation_id": "gen_abc123"
+  }
+}
