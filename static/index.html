@@ -30,18 +30,42 @@
         .header {
             background: linear-gradient(135deg, #1E88E5 0%, #4CAF50 100%);
             color: white;
-            padding: 30px;
+            padding: 40px 30px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
         }
 
         .header h1 {
-            font-size: 2.5em;
+            font-size: 2.8em;
             margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .header p {
-            opacity: 0.9;
-            font-size: 1.1em;
+            opacity: 0.95;
+            font-size: 1.2em;
+            position: relative;
+            z-index: 1;
+            font-weight: 300;
         }
 
         .content {
@@ -131,49 +155,87 @@
             background: linear-gradient(135deg, #1E88E5 0%, #4CAF50 100%);
             color: white;
             border: none;
-            padding: 16px 32px;
-            font-size: 1.1em;
-            font-weight: 600;
-            border-radius: 8px;
+            padding: 18px 36px;
+            font-size: 1.2em;
+            font-weight: 700;
+            border-radius: 10px;
             cursor: pointer;
             width: 100%;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(30, 136, 229, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(30, 136, 229, 0.5);
         }
 
         .btn:active {
-            transform: translateY(0);
+            transform: translateY(-1px);
         }
 
         .btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
         }
 
         .loading {
             display: none;
             text-align: center;
-            padding: 40px;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            margin: 30px 0;
         }
 
         .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #1E88E5;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #1E88E5;
+            border-right: 5px solid #4CAF50;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+            margin: 0 auto 25px;
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.2);
         }
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        .loading p {
+            font-size: 1.1em;
+            color: #666;
+            font-weight: 500;
         }
 
         .results {
@@ -184,14 +246,33 @@
         .option-card {
             background: white;
             border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 20px;
-            transition: box-shadow 0.3s;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(135deg, #1E88E5 0%, #4CAF50 100%);
+            transition: width 0.3s ease;
         }
 
         .option-card:hover {
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+            border-color: #1E88E5;
+        }
+
+        .option-card:hover::before {
+            width: 6px;
         }
 
         .option-header {
@@ -325,27 +406,39 @@
         }
 
         .error {
-            background: #ffebee;
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
             color: #c62828;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 20px 25px;
+            border-radius: 12px;
             margin-top: 20px;
             display: none;
+            border-left: 5px solid #c62828;
+            box-shadow: 0 4px 12px rgba(198, 40, 40, 0.15);
+        }
+
+        .error strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
         }
 
         .expand-btn {
             background: #f0f0f0;
             border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
+            padding: 10px 18px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 0.9em;
+            font-size: 0.95em;
+            font-weight: 600;
             margin-top: 10px;
-            transition: background 0.2s;
+            transition: all 0.2s;
+            color: #333;
         }
 
         .expand-btn:hover {
             background: #e0e0e0;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .collapsible {
@@ -455,20 +548,24 @@
                     </div>
 
                     <button type="submit" class="btn" id="generateBtn">
-                        🚀 Generate Creative Options
+                        <span>🚀 Generate Creative Options</span>
                     </button>
                 </form>
             </div>
 
             <div class="loading" id="loading">
                 <div class="spinner"></div>
-                <p>Generating creative options... This may take a moment.</p>
+                <p>✨ Generating creative options...</p>
+                <p style="font-size: 0.95em; color: #888; margin-top: 10px;">This may take 30-60 seconds. Please wait...</p>
             </div>
 
             <div class="error" id="error"></div>
 
             <div class="results" id="results">
-                <h2 style="margin-bottom: 20px; color: #333;">Generated Options</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 3px solid #1E88E5;">
+                    <h2 style="margin: 0; color: #333; font-size: 2em;">✨ Generated Options</h2>
+                    <span id="optionsCount" style="background: #1E88E5; color: white; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 0.9em;"></span>
+                </div>
                 <div id="optionsContainer"></div>
             </div>
         </div>
@@ -527,8 +624,9 @@
                 const data = await response.json();
                 displayResults(data);
             } catch (err) {
-                error.textContent = `Error: ${err.message}`;
+                error.innerHTML = `<strong>❌ Error</strong><p style="margin: 8px 0 0 0;">${err.message}</p>`;
                 error.style.display = 'block';
+                error.scrollIntoView({ behavior: 'smooth', block: 'start' });
             } finally {
                 loading.style.display = 'none';
                 generateBtn.disabled = false;
@@ -537,7 +635,11 @@
 
         function displayResults(data) {
             const container = document.getElementById('optionsContainer');
+            const countEl = document.getElementById('optionsCount');
             container.innerHTML = '';
+            
+            // Update count
+            countEl.textContent = `${data.options.length} Option${data.options.length !== 1 ? 's' : ''}`;
 
             data.options.forEach((option, index) => {
                 const card = document.createElement('div');
@@ -591,41 +693,58 @@
                     ` : ''}
 
                     <div class="copy-section">
-                        <h4>📝 Copy Variants</h4>
+                        <h4>📝 Ad Copy</h4>
                         ${Object.entries(option.copy).map(([lang, copy]) => `
                             <div class="copy-variants">
                                 <strong>${lang.toUpperCase()}</strong>
-                                ${copy.headline_variants.length > 0 ? `
-                                    <div style="margin-top: 8px;">
-                                        <strong>Headlines:</strong>
-                                        <ul>${copy.headline_variants.map(h => `<li>${h}</li>`).join('')}</ul>
+                                ${copy.primary_text || copy.body_variants?.[0] ? `
+                                    <div style="margin-top: 8px; padding: 12px; background: white; border-left: 4px solid #1E88E5; border-radius: 4px;">
+                                        <strong style="color: #1E88E5; display: block; margin-bottom: 6px;">Primary Text:</strong>
+                                        <p style="margin: 0; line-height: 1.6;">${copy.primary_text || copy.body_variants[0]}</p>
                                     </div>
                                 ` : ''}
-                                ${copy.subhead_variants.length > 0 ? `
-                                    <div style="margin-top: 8px;">
-                                        <strong>Subheads:</strong>
-                                        <ul>${copy.subhead_variants.map(s => `<li>${s}</li>`).join('')}</ul>
+                                ${copy.headline || copy.headline_variants?.[0] ? `
+                                    <div style="margin-top: 8px; padding: 12px; background: white; border-left: 4px solid #4CAF50; border-radius: 4px;">
+                                        <strong style="color: #4CAF50; display: block; margin-bottom: 6px;">Headline:</strong>
+                                        <p style="margin: 0; font-weight: 600; font-size: 1.1em;">${copy.headline || copy.headline_variants[0]}</p>
                                     </div>
                                 ` : ''}
-                                ${copy.body_variants.length > 0 ? `
-                                    <div style="margin-top: 8px;">
-                                        <strong>Body:</strong>
-                                        <ul>${copy.body_variants.map(b => `<li>${b}</li>`).join('')}</ul>
+                                ${copy.secondary_line || copy.subhead_variants?.[0] ? `
+                                    <div style="margin-top: 8px; padding: 12px; background: white; border-left: 4px solid #FF9800; border-radius: 4px;">
+                                        <strong style="color: #FF9800; display: block; margin-bottom: 6px;">Secondary Line:</strong>
+                                        <p style="margin: 0;">${copy.secondary_line || copy.subhead_variants[0]}</p>
                                     </div>
                                 ` : ''}
-                                ${copy.cta_variants.length > 0 ? `
-                                    <div style="margin-top: 8px;">
-                                        <strong>CTAs:</strong>
-                                        <ul>${copy.cta_variants.map(cta => `<li>${cta}</li>`).join('')}</ul>
+                                ${copy.cta || copy.cta_variants?.[0] ? `
+                                    <div style="margin-top: 8px; padding: 12px; background: linear-gradient(135deg, #1E88E5 0%, #4CAF50 100%); color: white; border-radius: 6px; text-align: center;">
+                                        <strong style="display: block; margin-bottom: 6px; font-size: 0.9em; opacity: 0.9;">Call-to-Action:</strong>
+                                        <p style="margin: 0; font-weight: 700; font-size: 1.2em;">${copy.cta || copy.cta_variants[0]}</p>
                                     </div>
+                                ` : ''}
+                                ${copy.headline_variants && copy.headline_variants.length > 1 ? `
+                                    <details style="margin-top: 8px;">
+                                        <summary style="cursor: pointer; color: #1E88E5; font-size: 0.9em;">Show all headline variants (${copy.headline_variants.length})</summary>
+                                        <ul style="margin-top: 5px; padding-left: 20px;">${copy.headline_variants.slice(1).map(h => `<li>${h}</li>`).join('')}</ul>
+                                    </details>
+                                ` : ''}
+                                ${copy.cta_variants && copy.cta_variants.length > 1 ? `
+                                    <details style="margin-top: 8px;">
+                                        <summary style="cursor: pointer; color: #1E88E5; font-size: 0.9em;">Show all CTA variants (${copy.cta_variants.length})</summary>
+                                        <ul style="margin-top: 5px; padding-left: 20px;">${copy.cta_variants.slice(1).map(cta => `<li>${cta}</li>`).join('')}</ul>
+                                    </details>
                                 ` : ''}
                             </div>
                         `).join('')}
                     </div>
 
-                    <button class="expand-btn" onclick="toggleDetails(this)">
-                        Show Design Spec & Prompts
-                    </button>
+                    <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="expand-btn" onclick="toggleDetails(this)">
+                            🎨 Show Design Spec & Prompts
+                        </button>
+                        <button class="expand-btn" onclick="copyOptionToClipboard(this, ${index})" style="background: #4CAF50; color: white;">
+                            📋 Copy Option
+                        </button>
+                    </div>
                     <div class="collapsible">
                         <div class="design-spec">
                             <h4>🎨 Design Specification</h4>
@@ -637,35 +756,66 @@
                         </div>
 
                         <div class="design-spec" style="margin-top: 15px;">
-                            <h4>🖼️ Image Generation</h4>
+                            <h4>🖼️ Generated Images</h4>
                             ${Object.entries(option.prompts).map(([asset, langs]) => `
-                                <div style="margin-top: 10px;">
-                                    <strong>${asset}:</strong>
+                                <div style="margin-top: 15px;">
+                                    <strong style="color: #333; font-size: 1.1em;">${asset.replace('_', ' ').toUpperCase()}:</strong>
                                     ${Object.entries(langs).map(([lang, prompt]) => `
-                                        <div style="margin-top: 8px; padding: 10px; background: white; border-radius: 6px;">
-                                            <strong>${lang.toUpperCase()}:</strong>
+                                        <div style="margin-top: 12px; padding: 15px; background: white; border-radius: 8px; border: 2px solid #e0e0e0;">
+                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                                <strong style="color: #1E88E5;">${lang.toUpperCase()}</strong>
+                                                ${prompt.generation_status === 'completed' ? `
+                                                    <span style="padding: 4px 8px; background: #e8f5e9; color: #2e7d32; border-radius: 4px; font-size: 0.85em; font-weight: 600;">✅ Generated</span>
+                                                ` : prompt.generation_status === 'failed' ? `
+                                                    <span style="padding: 4px 8px; background: #ffebee; color: #c62828; border-radius: 4px; font-size: 0.85em; font-weight: 600;">❌ Failed</span>
+                                                ` : `
+                                                    <span style="padding: 4px 8px; background: #fff3e0; color: #e65100; border-radius: 4px; font-size: 0.85em; font-weight: 600;">⏳ Pending</span>
+                                                `}
+                                            </div>
                                             ${prompt.generated_image_uri && prompt.generation_status === 'completed' ? `
-                                                <div style="margin-top: 8px;">
-                                                    <img src="${prompt.generated_image_uri}" alt="Generated image" style="max-width: 100%; border-radius: 6px; margin-top: 8px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                                                    <div style="display: none; padding: 8px; background: #fff3e0; border-radius: 4px; color: #e65100;">
-                                                        Image failed to load. URL: ${prompt.generated_image_uri}
+                                                <div style="margin-top: 10px; text-align: center;">
+                                                    <img src="${prompt.generated_image_uri}" alt="Generated image" 
+                                                         style="max-width: 100%; max-height: 400px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" 
+                                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                                    <div style="display: none; padding: 12px; background: #fff3e0; border-radius: 6px; color: #e65100; margin-top: 10px;">
+                                                        <strong>⚠️ Image failed to load</strong>
+                                                        <p style="margin: 5px 0; font-size: 0.9em;">URL: <a href="${prompt.generated_image_uri}" target="_blank">${prompt.generated_image_uri.substring(0, 60)}...</a></p>
                                                     </div>
-                                                    <p style="margin-top: 5px; font-size: 0.85em; color: #4CAF50;">✅ Image generated successfully</p>
+                                                    <div style="margin-top: 10px;">
+                                                        <a href="${prompt.generated_image_uri}" target="_blank" 
+                                                           style="display: inline-block; padding: 8px 16px; background: #1E88E5; color: white; text-decoration: none; border-radius: 6px; font-size: 0.9em; font-weight: 600;">
+                                                            📥 Download Image
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             ` : prompt.generation_status === 'failed' ? `
-                                                <div style="margin-top: 8px; padding: 8px; background: #ffebee; border-radius: 4px; color: #c62828;">
-                                                    <strong>❌ Image generation failed</strong>
-                                                    <p style="margin-top: 4px; font-size: 0.9em;">${prompt.error_message || 'Unknown error occurred'}</p>
+                                                <div style="margin-top: 10px; padding: 12px; background: #ffebee; border-radius: 6px; border-left: 4px solid #c62828;">
+                                                    <strong style="color: #c62828; display: block; margin-bottom: 6px;">❌ Image Generation Failed</strong>
+                                                    <p style="margin: 5px 0; font-size: 0.95em; color: #333;">${prompt.error_message || 'Unknown error occurred'}</p>
                                                     ${prompt.error_message && prompt.error_message.includes('billing') ? `
-                                                        <p style="margin-top: 4px; font-size: 0.85em;">💡 <a href="https://platform.openai.com/account/billing" target="_blank">Check OpenAI billing</a></p>
+                                                        <div style="margin-top: 10px; padding: 10px; background: white; border-radius: 4px;">
+                                                            <p style="margin: 0; font-size: 0.9em; color: #666;">💡 <strong>Solution:</strong> Check your OpenAI account billing and add credits.</p>
+                                                            <a href="https://platform.openai.com/account/billing" target="_blank" 
+                                                               style="display: inline-block; margin-top: 8px; padding: 6px 12px; background: #1E88E5; color: white; text-decoration: none; border-radius: 4px; font-size: 0.85em;">
+                                                                🔗 Open OpenAI Billing
+                                                            </a>
+                                                        </div>
                                                     ` : ''}
                                                 </div>
                                             ` : `
-                                                <p style="margin-top: 5px; color: #666;">⏳ Image generation pending...</p>
+                                                <div style="margin-top: 10px; padding: 12px; background: #f5f5f5; border-radius: 6px; text-align: center;">
+                                                    <p style="margin: 0; color: #666;">⏳ Image generation in progress...</p>
+                                                </div>
                                             `}
-                                            <details style="margin-top: 8px;">
-                                                <summary style="cursor: pointer; color: #1E88E5; font-size: 0.9em;">Show prompt</summary>
-                                                <p style="margin-top: 5px; font-family: monospace; font-size: 0.85em; color: #555; padding: 8px; background: #f5f5f5; border-radius: 4px;">${prompt.image_prompt}</p>
+                                            <details style="margin-top: 12px;">
+                                                <summary style="cursor: pointer; color: #1E88E5; font-size: 0.9em; font-weight: 600;">🔍 View Image Prompt</summary>
+                                                <div style="margin-top: 8px; padding: 12px; background: #f8f9fa; border-radius: 6px;">
+                                                    <p style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.85em; color: #555; line-height: 1.6; white-space: pre-wrap;">${prompt.image_prompt}</p>
+                                                    ${prompt.negative_prompt ? `
+                                                        <p style="margin-top: 8px; margin-bottom: 4px; font-size: 0.85em; color: #666; font-weight: 600;">Avoid:</p>
+                                                        <p style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.8em; color: #888;">${prompt.negative_prompt}</p>
+                                                    ` : ''}
+                                                </div>
                                             </details>
                                         </div>
                                     `).join('')}
@@ -692,8 +842,38 @@
             const collapsible = btn.nextElementSibling;
             collapsible.classList.toggle('show');
             btn.textContent = collapsible.classList.contains('show') 
-                ? 'Hide Design Spec & Prompts' 
-                : 'Show Design Spec & Prompts';
+                ? '🎨 Hide Design Spec & Prompts' 
+                : '🎨 Show Design Spec & Prompts';
+        }
+
+        function copyOptionToClipboard(btn, index) {
+            const option = data.options[index];
+            const text = `
+Option: ${option.concept_name}
+Rationale: ${option.rationale}
+
+Copy:
+${Object.entries(option.copy).map(([lang, copy]) => `
+${lang.toUpperCase()}:
+- Primary: ${copy.primary_text || copy.body_variants?.[0] || 'N/A'}
+- Headline: ${copy.headline || copy.headline_variants?.[0] || 'N/A'}
+- CTA: ${copy.cta || copy.cta_variants?.[0] || 'N/A'}
+`).join('')}
+
+Design: ${option.design_spec.layout}
+            `.trim();
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                btn.style.background = '#4CAF50';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '#f0f0f0';
+                }, 2000);
+            }).catch(err => {
+                alert('Failed to copy. Please select and copy manually.');
+            });
         }
     </script>
 </body>
