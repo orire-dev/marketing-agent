@@ -3,127 +3,882 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eToro Marketing Agent</title>
+    <title>eToro Marketing Agent - One-Click Social Ad Generator</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
-            background: #f5f5f5;
-        }
-        .container {
             background: white;
-            border-radius: 12px;
-            padding: 40px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
         }
-        h1 {
-            color: #1E88E5;
-            margin-bottom: 10px;
-        }
-        .subtitle {
-            color: #666;
-            font-size: 1.2em;
-            margin-bottom: 30px;
-        }
-        .feature {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 15px 0;
-        }
-        .feature h3 {
-            color: #1E88E5;
-            margin-top: 0;
-        }
-        .api-demo {
-            background: #1e1e1e;
-            color: #d4d4d4;
-            padding: 20px;
-            border-radius: 8px;
-            overflow-x: auto;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
-        }
-        .btn {
-            display: inline-block;
+
+        .header {
             background: linear-gradient(135deg, #1E88E5 0%, #4CAF50 100%);
             color: white;
-            padding: 12px 24px;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            opacity: 0.95;
+            font-size: 1.2em;
+            position: relative;
+            z-index: 1;
+            font-weight: 300;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #1E88E5;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .languages-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .language-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            background: white;
+            border: 2px solid #e0e0e0;
             border-radius: 6px;
-            text-decoration: none;
-            margin: 10px 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .language-checkbox:hover {
+            border-color: #1E88E5;
+            background: #f0f7ff;
+        }
+
+        .language-checkbox input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .language-checkbox input[type="checkbox"]:checked + span {
+            font-weight: 600;
+            color: #1E88E5;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #1E88E5 0%, #4CAF50 100%);
+            color: white;
+            border: none;
+            padding: 18px 36px;
+            font-size: 1.2em;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(30, 136, 229, 0.5);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #1E88E5;
+            border-right: 5px solid #4CAF50;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 25px;
+            box-shadow: 0 4px 15px rgba(30, 136, 229, 0.2);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading p {
+            font-size: 1.1em;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .results {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .option-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(135deg, #1E88E5 0%, #4CAF50 100%);
+            transition: width 0.3s ease;
+        }
+
+        .option-card:hover {
+            box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+            border-color: #1E88E5;
+        }
+
+        .option-card:hover::before {
+            width: 6px;
+        }
+
+        .option-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .option-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #1E88E5;
+            margin-bottom: 5px;
+        }
+
+        .option-id {
+            font-size: 0.85em;
+            color: #666;
+            font-family: monospace;
+        }
+
+        .scores {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .score-badge {
+            padding: 6px 12px;
+            background: #f0f7ff;
+            border-radius: 6px;
+            font-size: 0.9em;
             font-weight: 600;
         }
-        .btn:hover {
-            opacity: 0.9;
+
+        .score-badge.high {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .score-badge.medium {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .compliance-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .compliance-badge.pass {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .compliance-badge.warning {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .compliance-badge.fail {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .copy-section {
+            margin: 20px 0;
+        }
+
+        .copy-section h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .copy-variants {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .copy-variants strong {
+            color: #1E88E5;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .error {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            color: #c62828;
+            padding: 20px 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: none;
+            border-left: 5px solid #c62828;
+            box-shadow: 0 4px 12px rgba(198, 40, 40, 0.15);
+        }
+
+        .error strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .expand-btn {
+            background: #f0f0f0;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: all 0.2s;
+            color: #333;
+        }
+
+        .expand-btn:hover {
+            background: #e0e0e0;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .collapsible {
+            display: none;
+        }
+
+        .collapsible.show {
+            display: block;
+        }
+
+        .api-config {
+            background: #fff3e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #FF9800;
+        }
+
+        .api-config input {
+            margin-top: 8px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎨 eToro Marketing Agent</h1>
-        <p class="subtitle">One-Click Social Ad Generator - AI-Powered Creative Generation</p>
-        
-        <div class="feature">
-            <h3>✨ Features</h3>
-            <ul>
-                <li>Generate 3-5 distinct creative options per request</li>
-                <li>Platform-specific copy (X/Twitter, Facebook)</li>
-                <li>DALL-E 3 image generation</li>
-                <li>Multi-language support (7 languages)</li>
-                <li>Brand compliance checking</li>
-                <li>Real-time generation (< 60 seconds)</li>
-            </ul>
+        <div class="header">
+            <h1>🎨 eToro Marketing Agent</h1>
+            <p>One-Click Social Ad Generator - AI-Powered Creative Generation</p>
         </div>
 
-        <div class="feature">
-            <h3>🚀 Quick Start</h3>
-            <p>Run locally:</p>
-            <div class="api-demo">
-$ cd marketing-agent<br>
-$ source .venv/bin/activate<br>
-$ uvicorn app.main:app --host 0.0.0.0 --port 8000<br>
-<br>
-# Then open http://localhost:8000/
+        <div class="content">
+            <div class="api-config">
+                <strong>⚙️ API Configuration</strong>
+                <p style="margin: 5px 0; font-size: 0.9em; color: #666;">
+                    Enter your API endpoint (default: http://localhost:8000)
+                </p>
+                <input type="text" id="apiUrl" value="http://localhost:8000" placeholder="http://localhost:8000" style="margin-top: 8px;">
+                <p style="margin: 5px 0 0 0; font-size: 0.85em; color: #888;">
+                    💡 For local use, keep default. For deployed API, enter your server URL.
+                </p>
             </div>
-        </div>
 
-        <div class="feature">
-            <h3>📡 API Usage</h3>
-            <p>Generate creatives via API:</p>
-            <div class="api-demo">
-POST /generate<br>
-{<br>
-&nbsp;&nbsp;"product_scope": "crypto",<br>
-&nbsp;&nbsp;"channel": "social",<br>
-&nbsp;&nbsp;"asset": "social_1x1",<br>
-&nbsp;&nbsp;"languages": ["en", "de"],<br>
-&nbsp;&nbsp;"num_options": 3<br>
-}
+            <div class="form-section">
+                <h2 style="margin-bottom: 25px; color: #333;">Generation Parameters</h2>
+                
+                <form id="generateForm">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="product_scope">Product Scope *</label>
+                            <input type="text" id="product_scope" name="product_scope" value="crypto" required placeholder="e.g., crypto, stocks, ETFs">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="channel">Channel *</label>
+                            <select id="channel" name="channel" required>
+                                <option value="social">Social</option>
+                                <option value="x_twitter">X (Twitter)</option>
+                                <option value="facebook">Facebook</option>
+                                <option value="email">Email</option>
+                                <option value="display">Display</option>
+                                <option value="video">Video</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="asset">Asset Format *</label>
+                            <select id="asset" name="asset" required>
+                                <option value="social_1x1">Social 1x1</option>
+                                <option value="social_4x5">Social 4x5</option>
+                                <option value="story_9x16">Story 9x16</option>
+                                <option value="banner_16x9">Banner 16x9</option>
+                                <option value="static_image">Static Image</option>
+                                <option value="motion_ad">Motion Ad</option>
+                                <option value="short_video">Short Video</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="num_options">Number of Options</label>
+                            <input type="number" id="num_options" name="num_options" value="3" min="1" max="6">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Languages *</label>
+                        <div class="languages-group">
+                            <label class="language-checkbox">
+                                <input type="checkbox" name="languages" value="en" checked>
+                                <span>English (EN)</span>
+                            </label>
+                            <label class="language-checkbox">
+                                <input type="checkbox" name="languages" value="de">
+                                <span>German (DE)</span>
+                            </label>
+                            <label class="language-checkbox">
+                                <input type="checkbox" name="languages" value="es">
+                                <span>Spanish (ES)</span>
+                            </label>
+                            <label class="language-checkbox">
+                                <input type="checkbox" name="languages" value="fr">
+                                <span>French (FR)</span>
+                            </label>
+                            <label class="language-checkbox">
+                                <input type="checkbox" name="languages" value="it">
+                                <span>Italian (IT)</span>
+                            </label>
+                            <label class="language-checkbox">
+                                <input type="checkbox" name="languages" value="ar">
+                                <span>Arabic (AR)</span>
+                            </label>
+                            <label class="language-checkbox">
+                                <input type="checkbox" name="languages" value="he">
+                                <span>Hebrew (HE)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="style_guidance">Style Guidance</label>
+                        <textarea id="style_guidance" name="style_guidance" rows="3" placeholder="e.g., clean, premium, minimal copy, bold typography">clean, premium, minimal copy, bold typography</textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="segment_id">Segment ID (optional)</label>
+                            <input type="text" id="segment_id" name="segment_id" placeholder="e.g., crypto_beginner">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="campaign_goal">Campaign Goal (optional)</label>
+                            <input type="text" id="campaign_goal" name="campaign_goal" placeholder="e.g., awareness, conversion">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn" id="generateBtn">
+                        <span>🚀 Generate Creative Options</span>
+                    </button>
+                </form>
             </div>
-        </div>
 
-        <div class="feature">
-            <h3>📚 Documentation</h3>
-            <p>For full documentation, see the <a href="https://github.com/orire-dev/marketing-agent">GitHub repository</a>.</p>
-        </div>
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>✨ Generating creative options...</p>
+                <p style="font-size: 0.95em; color: #888; margin-top: 10px;">This may take 30-60 seconds. Please wait...</p>
+            </div>
 
-        <div style="margin-top: 40px; text-align: center;">
-            <a href="https://github.com/orire-dev/marketing-agent" class="btn" target="_blank">📦 View on GitHub</a>
-            <a href="https://github.com/orire-dev/marketing-agent/blob/main/README.md" class="btn" target="_blank">📚 Read Docs</a>
-            <a href="http://localhost:8000/" class="btn" style="background: linear-gradient(135deg, #4CAF50 0%, #1E88E5 100%);">🚀 Try the UI</a>
-        </div>
-        
-        <div class="feature" style="margin-top: 40px;">
-            <h3>🎯 Quick Links</h3>
-            <ul>
-                <li><strong>Local UI:</strong> <a href="http://localhost:8000/">http://localhost:8000/</a> (when server is running)</li>
-                <li><strong>API Docs:</strong> <a href="http://localhost:8000/docs">http://localhost:8000/docs</a></li>
-                <li><strong>Repository:</strong> <a href="https://github.com/orire-dev/marketing-agent">github.com/orire-dev/marketing-agent</a></li>
-            </ul>
+            <div class="error" id="error"></div>
+
+            <div class="results" id="results">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 3px solid #1E88E5;">
+                    <h2 style="margin: 0; color: #333; font-size: 2em;">✨ Generated Options</h2>
+                    <span id="optionsCount" style="background: #1E88E5; color: white; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 0.9em;"></span>
+                </div>
+                <div id="optionsContainer"></div>
+            </div>
         </div>
     </div>
+
+    <script>
+        const form = document.getElementById('generateForm');
+        const loading = document.getElementById('loading');
+        const results = document.getElementById('results');
+        const error = document.getElementById('error');
+        const generateBtn = document.getElementById('generateBtn');
+        let currentData = null;
+
+        // Get API URL from input or use default
+        function getApiUrl() {
+            const url = document.getElementById('apiUrl').value.trim();
+            return url || 'http://localhost:8000';
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(form);
+            const languages = Array.from(document.querySelectorAll('input[name="languages"]:checked')).map(cb => cb.value);
+            
+            if (languages.length === 0) {
+                alert('Please select at least one language');
+                return;
+            }
+
+            const requestData = {
+                product_scope: formData.get('product_scope'),
+                channel: formData.get('channel'),
+                asset: formData.get('asset'),
+                languages: languages,
+                num_options: parseInt(formData.get('num_options')),
+                style_guidance: formData.get('style_guidance') || null,
+                segment_id: formData.get('segment_id') || null,
+                campaign_goal: formData.get('campaign_goal') || null
+            };
+
+            // Show loading
+            loading.style.display = 'block';
+            results.style.display = 'none';
+            error.style.display = 'none';
+            generateBtn.disabled = true;
+
+            const apiUrl = getApiUrl();
+
+            try {
+                const response = await fetch(`${apiUrl}/generate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({ detail: `HTTP error! status: ${response.status}` }));
+                    throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                currentData = data;
+                displayResults(data);
+            } catch (err) {
+                error.innerHTML = `<strong>❌ Error</strong><p style="margin: 8px 0 0 0;">${err.message}</p><p style="margin: 8px 0 0 0; font-size: 0.9em;">Make sure the API server is running at ${apiUrl}</p>`;
+                error.style.display = 'block';
+                error.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } finally {
+                loading.style.display = 'none';
+                generateBtn.disabled = false;
+            }
+        });
+
+        function displayResults(data) {
+            const container = document.getElementById('optionsContainer');
+            const countEl = document.getElementById('optionsCount');
+            container.innerHTML = '';
+            
+            // Update count
+            countEl.textContent = `${data.options.length} Option${data.options.length !== 1 ? 's' : ''}`;
+
+            data.options.forEach((option, index) => {
+                const card = document.createElement('div');
+                card.className = 'option-card';
+
+                const complianceClass = option.compliance.status;
+                const complianceText = option.compliance.status.toUpperCase();
+
+                card.innerHTML = `
+                    <div class="option-header">
+                        <div>
+                            <div class="option-title">${option.concept_name}</div>
+                            <div class="option-id">ID: ${option.option_id}</div>
+                        </div>
+                        <span class="compliance-badge ${complianceClass}">${complianceText}</span>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <strong>Rationale:</strong> ${option.rationale}
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <strong>Audience Fit:</strong> ${option.audience_fit_notes}
+                    </div>
+
+                    <div class="scores">
+                        <div class="score-badge ${getScoreClass(option.scores.brand_fit)}">
+                            Brand Fit: ${(option.scores.brand_fit * 100).toFixed(0)}%
+                        </div>
+                        <div class="score-badge ${getScoreClass(option.scores.clarity)}">
+                            Clarity: ${(option.scores.clarity * 100).toFixed(0)}%
+                        </div>
+                        <div class="score-badge ${getScoreClass(option.scores.conversion_intent)}">
+                            Conversion: ${(option.scores.conversion_intent * 100).toFixed(0)}%
+                        </div>
+                        <div class="score-badge ${getScoreClass(option.scores.compliance_safety)}">
+                            Compliance: ${(option.scores.compliance_safety * 100).toFixed(0)}%
+                        </div>
+                        <div class="score-badge ${getScoreClass(option.scores.novelty)}">
+                            Novelty: ${(option.scores.novelty * 100).toFixed(0)}%
+                        </div>
+                    </div>
+
+                    ${option.compliance.flags.length > 0 ? `
+                        <div style="margin-top: 15px; padding: 10px; background: #fff3e0; border-radius: 6px;">
+                            <strong>⚠️ Compliance Flags:</strong>
+                            <ul style="margin-top: 5px; padding-left: 20px;">
+                                ${option.compliance.flags.map(flag => `<li>${flag}</li>`).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
+
+                    <div class="copy-section">
+                        <h4>📝 Ad Copy</h4>
+                        ${Object.entries(option.copy).map(([lang, copy]) => `
+                            <div class="copy-variants">
+                                <strong>${lang.toUpperCase()}</strong>
+                                ${copy.primary_text || copy.body_variants?.[0] ? `
+                                    <div style="margin-top: 8px; padding: 12px; background: white; border-left: 4px solid #1E88E5; border-radius: 4px;">
+                                        <strong style="color: #1E88E5; display: block; margin-bottom: 6px;">Primary Text:</strong>
+                                        <p style="margin: 0; line-height: 1.6;">${copy.primary_text || copy.body_variants[0]}</p>
+                                    </div>
+                                ` : ''}
+                                ${copy.headline || copy.headline_variants?.[0] ? `
+                                    <div style="margin-top: 8px; padding: 12px; background: white; border-left: 4px solid #4CAF50; border-radius: 4px;">
+                                        <strong style="color: #4CAF50; display: block; margin-bottom: 6px;">Headline:</strong>
+                                        <p style="margin: 0; font-weight: 600; font-size: 1.1em;">${copy.headline || copy.headline_variants[0]}</p>
+                                    </div>
+                                ` : ''}
+                                ${copy.secondary_line || copy.subhead_variants?.[0] ? `
+                                    <div style="margin-top: 8px; padding: 12px; background: white; border-left: 4px solid #FF9800; border-radius: 4px;">
+                                        <strong style="color: #FF9800; display: block; margin-bottom: 6px;">Secondary Line:</strong>
+                                        <p style="margin: 0;">${copy.secondary_line || copy.subhead_variants[0]}</p>
+                                    </div>
+                                ` : ''}
+                                ${copy.cta || copy.cta_variants?.[0] ? `
+                                    <div style="margin-top: 8px; padding: 12px; background: linear-gradient(135deg, #1E88E5 0%, #4CAF50 100%); color: white; border-radius: 6px; text-align: center;">
+                                        <strong style="display: block; margin-bottom: 6px; font-size: 0.9em; opacity: 0.9;">Call-to-Action:</strong>
+                                        <p style="margin: 0; font-weight: 700; font-size: 1.2em;">${copy.cta || copy.cta_variants[0]}</p>
+                                    </div>
+                                ` : ''}
+                                ${copy.headline_variants && copy.headline_variants.length > 1 ? `
+                                    <details style="margin-top: 8px;">
+                                        <summary style="cursor: pointer; color: #1E88E5; font-size: 0.9em;">Show all headline variants (${copy.headline_variants.length})</summary>
+                                        <ul style="margin-top: 5px; padding-left: 20px;">${copy.headline_variants.slice(1).map(h => `<li>${h}</li>`).join('')}</ul>
+                                    </details>
+                                ` : ''}
+                                ${copy.cta_variants && copy.cta_variants.length > 1 ? `
+                                    <details style="margin-top: 8px;">
+                                        <summary style="cursor: pointer; color: #1E88E5; font-size: 0.9em;">Show all CTA variants (${copy.cta_variants.length})</summary>
+                                        <ul style="margin-top: 5px; padding-left: 20px;">${copy.cta_variants.slice(1).map(cta => `<li>${cta}</li>`).join('')}</ul>
+                                    </details>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="expand-btn" onclick="toggleDetails(this)">
+                            🎨 Show Design Spec & Prompts
+                        </button>
+                        <button class="expand-btn" onclick="copyOptionToClipboard(${index})" style="background: #4CAF50; color: white;">
+                            📋 Copy Option
+                        </button>
+                    </div>
+                    <div class="collapsible">
+                        <div class="design-spec" style="margin-top: 15px;">
+                            <h4>🎨 Design Specification</h4>
+                            <p><strong>Layout:</strong> ${option.design_spec.layout}</p>
+                            <p><strong>Typography:</strong> ${option.design_spec.typography_intent}</p>
+                            <p><strong>Imagery:</strong> ${option.design_spec.imagery_direction}</p>
+                            <p><strong>Colors:</strong> ${option.design_spec.brand_color_usage_notes}</p>
+                            ${option.design_spec.animation_vibe ? `<p><strong>Animation:</strong> ${option.design_spec.animation_vibe}</p>` : ''}
+                        </div>
+
+                        <div class="design-spec" style="margin-top: 15px;">
+                            <h4>🖼️ Generated Images</h4>
+                            ${Object.entries(option.prompts).map(([asset, langs]) => `
+                                <div style="margin-top: 15px;">
+                                    <strong style="color: #333; font-size: 1.1em;">${asset.replace('_', ' ').toUpperCase()}:</strong>
+                                    ${Object.entries(langs).map(([lang, prompt]) => `
+                                        <div style="margin-top: 12px; padding: 15px; background: white; border-radius: 8px; border: 2px solid #e0e0e0;">
+                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                                <strong style="color: #1E88E5;">${lang.toUpperCase()}</strong>
+                                                ${prompt.generation_status === 'completed' ? `
+                                                    <span style="padding: 4px 8px; background: #e8f5e9; color: #2e7d32; border-radius: 4px; font-size: 0.85em; font-weight: 600;">✅ Generated</span>
+                                                ` : prompt.generation_status === 'failed' ? `
+                                                    <span style="padding: 4px 8px; background: #ffebee; color: #c62828; border-radius: 4px; font-size: 0.85em; font-weight: 600;">❌ Failed</span>
+                                                ` : `
+                                                    <span style="padding: 4px 8px; background: #fff3e0; color: #e65100; border-radius: 4px; font-size: 0.85em; font-weight: 600;">⏳ Pending</span>
+                                                `}
+                                            </div>
+                                            ${prompt.generated_image_uri && prompt.generation_status === 'completed' ? `
+                                                <div style="margin-top: 10px; text-align: center;">
+                                                    <img src="${prompt.generated_image_uri}" alt="Generated image" 
+                                                         style="max-width: 100%; max-height: 400px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" 
+                                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                                    <div style="display: none; padding: 12px; background: #fff3e0; border-radius: 6px; color: #e65100; margin-top: 10px;">
+                                                        <strong>⚠️ Image failed to load</strong>
+                                                        <p style="margin: 5px 0; font-size: 0.9em;">URL: <a href="${prompt.generated_image_uri}" target="_blank">${prompt.generated_image_uri.substring(0, 60)}...</a></p>
+                                                    </div>
+                                                    <div style="margin-top: 10px;">
+                                                        <a href="${prompt.generated_image_uri}" target="_blank" 
+                                                           style="display: inline-block; padding: 8px 16px; background: #1E88E5; color: white; text-decoration: none; border-radius: 6px; font-size: 0.9em; font-weight: 600;">
+                                                            📥 Download Image
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            ` : prompt.generation_status === 'failed' ? `
+                                                <div style="margin-top: 10px; padding: 12px; background: #ffebee; border-radius: 6px; border-left: 4px solid #c62828;">
+                                                    <strong style="color: #c62828; display: block; margin-bottom: 6px;">❌ Image Generation Failed</strong>
+                                                    <p style="margin: 5px 0; font-size: 0.95em; color: #333;">${prompt.error_message || 'Unknown error occurred'}</p>
+                                                    ${prompt.error_message && prompt.error_message.includes('billing') ? `
+                                                        <div style="margin-top: 10px; padding: 10px; background: white; border-radius: 4px;">
+                                                            <p style="margin: 0; font-size: 0.9em; color: #666;">💡 <strong>Solution:</strong> Check your OpenAI account billing and add credits.</p>
+                                                            <a href="https://platform.openai.com/account/billing" target="_blank" 
+                                                               style="display: inline-block; margin-top: 8px; padding: 6px 12px; background: #1E88E5; color: white; text-decoration: none; border-radius: 4px; font-size: 0.85em;">
+                                                                🔗 Open OpenAI Billing
+                                                            </a>
+                                                        </div>
+                                                    ` : ''}
+                                                </div>
+                                            ` : `
+                                                <div style="margin-top: 10px; padding: 12px; background: #f5f5f5; border-radius: 6px; text-align: center;">
+                                                    <p style="margin: 0; color: #666;">⏳ Image generation in progress...</p>
+                                                </div>
+                                            `}
+                                            <details style="margin-top: 12px;">
+                                                <summary style="cursor: pointer; color: #1E88E5; font-size: 0.9em; font-weight: 600;">🔍 View Image Prompt</summary>
+                                                <div style="margin-top: 8px; padding: 12px; background: #f8f9fa; border-radius: 6px;">
+                                                    <p style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.85em; color: #555; line-height: 1.6; white-space: pre-wrap;">${prompt.image_prompt}</p>
+                                                    ${prompt.negative_prompt ? `
+                                                        <p style="margin-top: 8px; margin-bottom: 4px; font-size: 0.85em; color: #666; font-weight: 600;">Avoid:</p>
+                                                        <p style="margin: 0; font-family: 'Courier New', monospace; font-size: 0.8em; color: #888;">${prompt.negative_prompt}</p>
+                                                    ` : ''}
+                                                </div>
+                                            </details>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            results.style.display = 'block';
+            results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function getScoreClass(score) {
+            if (score >= 0.8) return 'high';
+            if (score >= 0.5) return 'medium';
+            return '';
+        }
+
+        function toggleDetails(btn) {
+            const collapsible = btn.nextElementSibling;
+            collapsible.classList.toggle('show');
+            btn.textContent = collapsible.classList.contains('show') 
+                ? '🎨 Hide Design Spec & Prompts' 
+                : '🎨 Show Design Spec & Prompts';
+        }
+
+        function copyOptionToClipboard(index) {
+            if (!currentData || !currentData.options[index]) return;
+            
+            const option = currentData.options[index];
+            const text = `
+Option: ${option.concept_name}
+Rationale: ${option.rationale}
+
+Copy:
+${Object.entries(option.copy).map(([lang, copy]) => `
+${lang.toUpperCase()}:
+- Primary: ${copy.primary_text || copy.body_variants?.[0] || 'N/A'}
+- Headline: ${copy.headline || copy.headline_variants?.[0] || 'N/A'}
+- CTA: ${copy.cta || copy.cta_variants?.[0] || 'N/A'}
+`).join('')}
+
+Design: ${option.design_spec.layout}
+            `.trim();
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                btn.style.background = '#4CAF50';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '#4CAF50';
+                }, 2000);
+            }).catch(err => {
+                alert('Failed to copy. Please select and copy manually.');
+            });
+        }
+    </script>
 </body>
 </html>
