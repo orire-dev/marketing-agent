@@ -922,6 +922,105 @@ Design: ${option.design_spec.layout}
                 alert('Failed to copy. Please select and copy manually.');
             });
         }
+
+        // Document upload functionality
+        const uploadBtn = document.getElementById('uploadBtn');
+        const uploadStatus = document.getElementById('uploadStatus');
+        const uploadedDocuments = document.getElementById('uploadedDocuments');
+
+        async function loadDocuments() {
+            const apiUrl = getApiUrl();
+            try {
+                const response = await fetch(`${apiUrl}/documents`);
+                const data = await response.json();
+                
+                if (data.documents && data.documents.length > 0) {
+                    uploadedDocuments.innerHTML = `
+                        <div style="margin-top: 10px; padding: 10px; background: white; border-radius: 6px;">
+                            <strong>Uploaded Documents:</strong>
+                            <ul style="margin-top: 5px; padding-left: 20px;">
+                                ${data.documents.map(doc => `
+                                    <li>${doc.doc_name} (${doc.doc_type}) - ${doc.chunk_count} chunks</li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    `;
+                } else {
+                    uploadedDocuments.innerHTML = '';
+                }
+            } catch (err) {
+                console.error('Error loading documents:', err);
+            }
+        }
+
+        if (uploadBtn) {
+            uploadBtn.addEventListener('click', async () => {
+                const fileInput = document.getElementById('documentFile');
+                const docName = document.getElementById('documentName').value.trim();
+                const docType = document.getElementById('documentType').value;
+                const apiUrl = getApiUrl();
+
+                if (!fileInput.files || fileInput.files.length === 0) {
+                    alert('Please select a file');
+                    return;
+                }
+
+                if (!docName) {
+                    alert('Please enter a document name');
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('file', fileInput.files[0]);
+                formData.append('doc_name', docName);
+                formData.append('doc_type', docType);
+
+                uploadBtn.disabled = true;
+                uploadBtn.textContent = '⏳ Uploading...';
+                uploadStatus.style.display = 'block';
+                uploadStatus.innerHTML = '<p style="color: #666;">Uploading and processing document...</p>';
+
+                try {
+                    const response = await fetch(`${apiUrl}/upload-document`, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        const error = await response.json();
+                        throw new Error(error.detail || 'Upload failed');
+                    }
+
+                    const result = await response.json();
+                    uploadStatus.innerHTML = `
+                        <div style="padding: 10px; background: #e8f5e9; border-radius: 6px; color: #2e7d32;">
+                            <strong>✅ Success!</strong>
+                            <p style="margin: 5px 0;">${result.message}</p>
+                        </div>
+                    `;
+
+                    // Clear form
+                    fileInput.value = '';
+                    document.getElementById('documentName').value = '';
+
+                    // Reload documents list
+                    await loadDocuments();
+                } catch (err) {
+                    uploadStatus.innerHTML = `
+                        <div style="padding: 10px; background: #ffebee; border-radius: 6px; color: #c62828;">
+                            <strong>❌ Error</strong>
+                            <p style="margin: 5px 0;">${err.message}</p>
+                        </div>
+                    `;
+                } finally {
+                    uploadBtn.disabled = false;
+                    uploadBtn.textContent = '📤 Upload Document';
+                }
+            });
+
+            // Load documents on page load
+            loadDocuments();
+        }
     </script>
 </body>
 </html>
