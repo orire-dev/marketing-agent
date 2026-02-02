@@ -436,11 +436,20 @@
             <div class="api-config">
                 <strong>⚙️ API Configuration</strong>
                 <p style="margin: 5px 0; font-size: 0.9em; color: #666;">
-                    Enter your deployed API endpoint URL
+                    Enter your Marketing Agent API server URL (NOT the OpenAI API URL)
                 </p>
                 <input type="text" id="apiUrl" value="" placeholder="https://your-api.onrender.com or https://your-api.railway.app" style="margin-top: 8px;">
                 <p style="margin: 5px 0; font-size: 0.85em; color: #e65100; font-weight: 600;">
-                    ⚠️ Required: You must deploy the API server first! See DEPLOYMENT.md for instructions.
+                    ⚠️ Important: This should be YOUR Marketing Agent API server URL, not OpenAI's API URL!
+                </p>
+                <p style="margin: 5px 0; font-size: 0.85em; color: #666;">
+                    ✅ Correct: <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 3px;">https://marketing-agent-api.onrender.com</code>
+                </p>
+                <p style="margin: 5px 0; font-size: 0.85em; color: #c62828;">
+                    ❌ Wrong: <code style="background: #ffebee; padding: 2px 6px; border-radius: 3px;">https://api.openai.com/v1/images/generations</code>
+                </p>
+                <p style="margin: 5px 0; font-size: 0.85em; color: #666;">
+                    💡 The Marketing Agent API will handle OpenAI calls internally. You need to deploy it first!
                 </p>
                 <p style="margin: 10px 0 5px 0; font-size: 0.9em; color: #666;">
                     Enter your OpenAI API key for image generation (optional - can use server env var)
